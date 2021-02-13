@@ -38,7 +38,7 @@ export default function ProductWithCategory({response}) {
   const handleSearch = (e) => {
     e.preventDefault()
     setSearch("")
-    router.push({pathname : `/foods/search`, query: {
+    router.push({pathname : `/product/search`, query: {
       keyword: encodeURIComponent(search),
       page : 1
     }})
