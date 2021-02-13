@@ -1,18 +1,18 @@
 import axios from 'axios'
 import { GetServerSideProps } from 'next'
-import Link from 'next/link';
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {useRouter} from 'next/router'
-import { Button, Container, Form, FormControl, InputGroup } from 'react-bootstrap';
-import Pagination from '../component/pagination';
+import ListProducts from '../component/list/products'
+import { Button, Container, Form, FormControl, InputGroup } from 'react-bootstrap'
+import Pagination from '../component/pagination'
 import handlePaginate from '../utils/paginate';
 
 export const getServerSideProps:GetServerSideProps = async({query}) => {
-  const page = !query.page ? 1 : query.page;
+  const page = query.page || 1;
   let postData = null;
 
   try {
-    const resp = await axios.get(`http://${process.env.API_HOST}/post/${page}`);
+    const resp = await axios.get(`http://${process.env.API_HOST}/product/${page}`);
     postData = {response: await resp.data};
   } catch (err) {
     console.error(err);
@@ -23,44 +23,36 @@ export const getServerSideProps:GetServerSideProps = async({query}) => {
   }
 }
 
-export default function Index({response}) {
-  const posts = response.response
+export default function ProductIndex({response}) {
+  const posts = response.products;
+
   const [search, setSearch] = useState("")
   const router = useRouter();
 
   const handleChange = (e) => {
     e.preventDefault()
-    if(search.length <= 0 && e.target.value <= 0) {
-      return;
-    }
     setSearch(e.target.value);
   }
 
   const handleSearch = (e) => {
     e.preventDefault()
-    const keyword = search
     setSearch("")
-    router.push({pathname : `/post/search`, query: {
-      keyword: encodeURIComponent(keyword),
+    router.push({pathname : `/product/search`, query: {
+      keyword: encodeURIComponent(search),
       page : 1
     }})
   }
 
   return (
-    <Container>
-      <h1>Hello World!</h1>
-      {!posts ? null : posts.map(post => (
-        <div key={post.id} className="d-flex flex-column align-items-start mt-2">
-          <Link href={`/post/${post.id}`}><h4 className="my-1">{post.title}</h4></Link>
-          <span>{post.username}</span>
-          <small className="">{new Date(post.created_at).toLocaleString()}</small>
-        </div>
-      ))}
-      <Form className="my-3 d-flex align-items-center">
-          <Form.Control type="text" aria-describedby="form-control-search" value={search} onChange={handleChange}/>
-          <Button variant="primary" type="submit" style={{width: "auto", wordBreak: "keep-all"}} onClick={handleSearch}>검색하기</Button>
-      </Form>
-      <Link href="/post/create"><span className="btn btn-outline-primary">작성</span></Link>
+    <Container className="px-4">
+      <h1 className="px-4">Hello World!</h1>
+      <InputGroup className="my-3">
+          <FormControl aria-describedby="form-control-search" value={search} onChange={handleChange}/>
+          <Button variant="primary" type="submit" style={{width: "auto", wordBreak: "keep-all"}} onClick={handleSearch}>
+            검색하기
+          </Button>
+      </InputGroup>
+      {!posts ? null : <ListProducts posts={posts}/>} 
       <Pagination
         currentPage={response.currentPage}
         maxPage={response.maxPage}

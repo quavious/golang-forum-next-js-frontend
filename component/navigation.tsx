@@ -11,7 +11,8 @@ export default function Navigation(){
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ml-auto">
-                        <Nav.Link href="/product" className="">냉동식품</Nav.Link>
+                        <Nav.Link href="/" className="">냉동식품</Nav.Link>
+                        <Nav.Link href="/post" className="">자유게시판</Nav.Link>
                         <Nav.Link href="/post/create" className="">글 작성</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
