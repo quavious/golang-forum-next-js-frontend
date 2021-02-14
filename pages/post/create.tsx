@@ -35,7 +35,7 @@ export default function Write(){
         } else {
             console.log(await data.response)
             initialize()
-            router.push("/")
+            router.push("/post")
         }
     }
     const handleChange = (e, param) => {

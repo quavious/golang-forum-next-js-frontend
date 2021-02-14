@@ -54,7 +54,7 @@ export default function PostModify({response, id}) {
         } else {
             console.log(await data)
             initialize()
-            router.push("/")
+            router.push("/post")
         }
     }
 

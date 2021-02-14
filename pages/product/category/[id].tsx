@@ -2,7 +2,8 @@ import axios from 'axios'
 import { GetServerSideProps } from 'next'
 import {useRouter} from 'next/router'
 import { useState } from 'react'
-import { Button, Container, FormControl, InputGroup } from 'react-bootstrap'
+import { Button, Container, FormControl, InputGroup, Nav } from 'react-bootstrap'
+import CategoryMenu from '../../../component/category/menu'
 import ListProducts from '../../../component/list/products'
 import Pagination from '../../../component/pagination'
 import handlePaginate from '../../../utils/paginate'
@@ -14,17 +15,17 @@ export const getServerSideProps:GetServerSideProps = async({query}) => {
 
   try {
     const resp = await axios.get(`http://${process.env.API_HOST}/product/category/${id}/${page}`);
-    postData = {response: await resp.data};
+    postData = {response: await resp.data, categoryId: id};
   } catch (err) {
     console.error(err);
-    postData = {response: null};
+    postData = {response: null, categoryId: id};
   }
   return {
     props: postData,
   }
 }
 
-export default function ProductWithCategory({response}) {
+export default function ProductWithCategory({response, categoryId}) {
   const posts = response.products
   const [search, setSearch] = useState("")
 
@@ -47,6 +48,7 @@ export default function ProductWithCategory({response}) {
   return (
     <Container className="px-4">
       <h1 className="px-4">Hello World!</h1>
+      <CategoryMenu page={categoryId} />
       <InputGroup className="my-3">
           <FormControl aria-describedby="form-control-search" value={search} onChange={handleChange}/>
           <Button variant="primary" type="submit" onClick={handleSearch}>

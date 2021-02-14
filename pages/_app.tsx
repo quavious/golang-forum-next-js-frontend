@@ -13,7 +13,7 @@ function MyApp({ Component, pageProps }) {
         </Head>
         <Navigation />
         <Component {...pageProps} />
-        <p className="px-4 py-2 bg-light">파트너스 활동으로 일정량의 수수료를 받고 있습니다.</p>
+        <p className="px-4 py-2 bg-light container text-small text-muted">파트너스 활동으로 일정량의 수수료를 받고 있습니다.</p>
       </>
     )
 }

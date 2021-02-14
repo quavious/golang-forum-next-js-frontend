@@ -3,9 +3,10 @@ import { GetServerSideProps } from 'next'
 import { useState, useEffect } from 'react'
 import {useRouter} from 'next/router'
 import ListProducts from '../component/list/products'
-import { Button, Container, Form, FormControl, InputGroup } from 'react-bootstrap'
+import { Button, Container, Form, FormControl, InputGroup, Nav } from 'react-bootstrap'
 import Pagination from '../component/pagination'
 import handlePaginate from '../utils/paginate';
+import CategoryMenu from '../component/category/menu'
 
 export const getServerSideProps:GetServerSideProps = async({query}) => {
   const page = query.page || 1;
@@ -46,6 +47,7 @@ export default function ProductIndex({response}) {
   return (
     <Container className="px-4">
       <h1 className="px-4">Hello World!</h1>
+      <CategoryMenu page={2}/>
       <InputGroup className="my-3">
           <FormControl aria-describedby="form-control-search" value={search} onChange={handleChange}/>
           <Button variant="primary" type="submit" style={{width: "auto", wordBreak: "keep-all"}} onClick={handleSearch}>
